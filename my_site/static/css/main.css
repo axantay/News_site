@@ -1,0 +1,14 @@
+.preview_shadow {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    width: 100%;
+    filter: brightness(.5);
+};
+
+.preview_shadow .preview-img {
+    height: calc(18.57143px + 32.36607vw);
+    width: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+};

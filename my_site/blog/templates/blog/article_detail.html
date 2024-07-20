@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block main %}
+
+<div class="card mt-3 mb-5">
+    <div class="card-header d-flex justify-content-between">
+        <div>
+            Kategoriyasi: {{ article.category.title }}
+        </div>
+        <div>
+            <a href="{% url 'index' %}" class="btn btn-secondary">Назад</a>
+            {% if article.author == user %}
+            <a href="{% url 'delete_article' article.id %}" class="btn btn-danger">удалить</a>
+            <a href="{% url 'update' article.id %}" class="btn btn-warning">изменить</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <img src="{{ article.get_photo }}" style="width: 600px; height: 600px" alt="" class="card-img-top">
+        <h5 class="card-title">{{ article.title }}</h5>
+        <p class="card-text">{{ article.content }}</p>
+    </div>
+    <div class="card-footer text-muted text-center">
+        <div>
+            {{ article.created_at|timesince }} ago
+        </div>
+    </div>
+    {% for comment in comments %}
+    <div class="card">
+        <div class="card-header">
+            {{ comment.user.username }}
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                <p>{{ comment.text }}</p>
+                <footer class="blockquote-footer">
+                    {{ comment.create_at }}
+                </footer>
+            </blockquote>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% if request.user.is_authenticated %}
+    <h4>Комментария</h4>
+    <form action="{% url 'save_comment' article.pk %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ comment_form.text }}
+        <button class="btn btn-success">Комменатрия</button>
+    </form>
+    {% endif %}
+
+</div>
+{% endblock main %}

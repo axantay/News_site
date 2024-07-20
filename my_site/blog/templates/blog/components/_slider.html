@@ -1,0 +1,10 @@
+{% load blog_tags %}
+
+
+{% get_all_categories as categories %}
+<div class="list-group mt-3">
+    <a href="{% url 'index' %}" class="list-group-item">Все</a>
+    {% for category in categories %}
+    <a href="{% url 'category' category.pk  %}" class="list-group-item">{{ category.title }}</a>
+    {% endfor %}
+</div>
